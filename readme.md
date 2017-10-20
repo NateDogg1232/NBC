@@ -148,6 +148,13 @@ Architecture:
         - Opcode 38h
         - Jumps to the address specified in addr if less than flag is not set
             - addr must be of type address
+    - `JSR addr`
+        - Opcode 39h
+        - Jumps to the address specified, storing the calling address in a stack
+            - addr must be of type address
+    - `RET`
+        - Opcode 3Ah
+        - Returns to the last address pushed to the stack + 1
     - `CMP op1 op2`
         - Opcode 40h
         - Sets flags accordingly when comparing op1 and op2
