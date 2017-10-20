@@ -25,12 +25,17 @@ Architecture:
             ```
 - ASM structures:
     - Case is unimportant, except for labels
+	- Labels are denoted as such
+		```
+		:label
+		```
     - Value types:
         - $ - Address
         - \# - Indirect address
         - % - Literal
         - l/L - 16-bit
         - s/S - 8-bit
+		- : - Label
         - Example:
             ```
             mov $l6 #s5
