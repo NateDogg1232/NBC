@@ -2,6 +2,8 @@
 
 The worst bytecode you will ever see
 
+In its current state, the project is simply just an assembler for it, but will soon contain both the assembler and an interpreter which may or may not use Unity. I do not know yet.
+
 Documentation:
 Architecture:
 - RAM:
