@@ -168,6 +168,13 @@ Architecture:
         - Takes input from the port specified and stores the input in dest
             - dest must be of type address
             - Only takes 16-bit values
+    - `PSH value`
+        - Opcode 60h
+        - Pushes a value to the stack
+    - `POP dest`
+        - Opcode 61h
+        - Pops a value from the stack to the destination dest
+            - addr must be of type address
 
 - Ports info:
     - Fully standard (must be present)
