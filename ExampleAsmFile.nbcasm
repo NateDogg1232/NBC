@@ -3,8 +3,11 @@
 /
 :init
 
-!Move the value
+!Move the value 1 to the address 0
 mov %1 $0
-mov $1 $1
+!Move the value in address 0 to address 1
+mov $0 $1
+!Add the two values in address 0 and address 1
 add $0 $0 $2
+!Print the resulting ASCII character
 out %0 $2
