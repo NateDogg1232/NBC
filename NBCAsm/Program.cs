@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace NBCAsm
@@ -6,7 +7,6 @@ namespace NBCAsm
     class Program
     {
         static string fileName = "";
-
         static void Main(string[] args)
         {
             if (args.GetLength(0)!=0)
@@ -18,11 +18,7 @@ namespace NBCAsm
                     if (arg == "-help" || arg == "-h")
                     {
                         Debug.WriteLine("ArgumentFound: " + arg);
-                        Console.WriteLine("NBC Assembler Ver {0}", "b1.0" );
-                        Console.WriteLine("Archeticture: PC-.NETCore");
-                        Console.WriteLine();
-                        Console.WriteLine("Syntax: NBCAsm <file> [-h|-help]");
-                        Console.ReadLine();
+                        ShowHelp();
                     }
 
                     if (!arg.StartsWith("-"))
@@ -35,6 +31,15 @@ namespace NBCAsm
             {
                 Debug.WriteLine("There are no args");
             }
+            Console.ReadLine();
+        }
+        
+        static void ShowHelp()
+        {
+            Console.WriteLine("NBC Assembler Ver {0}", "b1.0");
+            Console.WriteLine("Archeticture: PC-.NETCore");
+            Console.WriteLine();
+            Console.WriteLine("Syntax: NBCAsm <file> [-h|-help]");
             Console.ReadLine();
         }
     }
