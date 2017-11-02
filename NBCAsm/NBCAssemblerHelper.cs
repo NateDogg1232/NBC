@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NBCAsm
+namespace NBCAssembler
 {
     enum NBCArgType
     {
@@ -42,6 +42,11 @@ namespace NBCAsm
                 throw new System.FormatException("String is in the incorrect format");
             }
             string[] words = str.Split();
+            foreach (string i in words)
+            {
+                if (!i.StartsWith("")) ;
+            }
+            return null;
         }
     }
 }

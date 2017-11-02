@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
+using NBCAssembler;
+
 namespace NBCAsm
 {
     class Program
