@@ -57,8 +57,7 @@ namespace NBCAssembler
                     default:
                         return false;
                 }
-                int j;
-                if (!int.TryParse(i.Substring(2), out j))
+                if (!int.TryParse(i.Substring(2), out int j))
                 {
                     return false;
                 }
@@ -123,8 +122,7 @@ namespace NBCAssembler
                 }
                 else
                 {
-                    int j;
-                    if (int.TryParse(i.Substring(2), out j))
+                    if (int.TryParse(i.Substring(2), out int j))
                     {
                         tmp.Value = j;
                     }

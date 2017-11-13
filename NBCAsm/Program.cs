@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-
 using NBCAssembler;
 
 namespace NBCAsm
 {
+
+    //TODO: Fix argument parser
+
     class Program
     {
         static string fileName = "";
@@ -21,7 +23,10 @@ namespace NBCAsm
                     {
                         Debug.WriteLine("ArgumentFound: " + arg);
                         ShowHelp();
+                        return;
                     }
+
+                    if (arg == "-o")
 
                     if (!arg.StartsWith("-"))
                     {
@@ -34,9 +39,11 @@ namespace NBCAsm
                 Debug.WriteLine("There are no args");
                 ShowHelp();
             }
-            Console.Write("Assembling file: \"");
-            Console.Write(fileName);
-            Console.WriteLine("\"");
+            if (fileName == "")
+            {
+                Console.WriteLine("No file given!");
+                return;
+            }
         }
         
         static void ShowHelp()
@@ -46,6 +53,9 @@ namespace NBCAsm
             Console.WriteLine();
             Console.WriteLine("Syntax: NBCAsm <file> [-h|-help] [-o output]");
             Console.WriteLine();
+            Console.WriteLine("All arguments are case sensitive!");
+            Console.WriteLine();
+            Console.WriteLine("Arguments: ");
             Console.WriteLine("\t-h/-help: Show this message");
             Console.WriteLine("\tfile: File to assemble");
             Console.WriteLine("\t-o output: Output the result to the file specified. By default this file is the same as the input except with the extension .nbc");
