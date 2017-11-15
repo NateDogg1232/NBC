@@ -11,8 +11,11 @@ namespace NBCAsm
     class Program
     {
         static string fileName = "";
+        static string outputFileName = "";
+        static NBCAssembler.NBCAssembler assembler;
         static void Main(string[] args)
         {
+
             if (args.GetLength(0)!=0)
             {
                 Debug.WriteLine("There are args");
@@ -42,6 +45,11 @@ namespace NBCAsm
             if (fileName == "")
             {
                 Console.WriteLine("No file given!");
+                Console.WriteLine("".Split(" ").GetLength(0));
+                foreach (string str in "".Split(" "))
+                {
+                    Console.WriteLine(str);
+                }
                 return;
             }
         }
