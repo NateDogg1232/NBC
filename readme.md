@@ -7,6 +7,8 @@ In its current state, the project is simply just an assembler for it, but will s
 Documentation:
 Architecture:
 
+---
+
 - RAM:
 
   - 16 pages of RAM each 256 bytes
@@ -25,6 +27,9 @@ Architecture:
     ```asm
     chp %5
     ```
+    
+---
+
 - ASM structures:
   - Case is unimportant, except for labels
   - All files must contain at least these three directives:
@@ -49,6 +54,8 @@ Architecture:
     ```
       - Moves the value in address 6 (which is a 16-bit value) into addres 5 (Which is an 8-bit value. Each conversion from 16-bit to 8-bit gets the first 8 bits cut off.
 
+---
+
 - Command structures:
   - Opcode:
     - Word 1: Command
@@ -61,16 +68,20 @@ Architecture:
           - Bit 4 requires bit 3 to be set.
     - Words 3/Bytes 5 on are arguments to a max of 4 arguments
 
+---
+
 - Program Structure
   - Header:
     - Byte 1: Architecture ID
-      0. Universal (Can handle any architecture)
-      1. PC (Windows/Linux using the one provided in this repo)
-      2. 3DS (SmileBASIC)
+      - 0 Universal (Can handle any architecture)
+      - 1 PC (Windows/Linux using the one provided in this repo)
+      - 2 3DS (SmileBASIC)
       * If you want to add more, just ask and I can put it in the list.
     - Byte 2: OS-Specific argument
     - Byte 3: Ammount of pages to reserve
     - Byte 4-x Addresses of the pages that are reserved (Multiple of 256)
+
+---
 
 - Commands:
   - `NOP`
@@ -187,6 +198,8 @@ Architecture:
     - Opcode 61h
     - Pops a value from the stack to the destination dest
       - addr must be of type address
+
+---
 
 - Ports info:
   - Fully standard (must be present)
