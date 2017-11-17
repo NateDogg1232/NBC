@@ -15,7 +15,7 @@ namespace NBCAsm
         static NBCAssembler.NBCAssembler assembler;
         static void Main(string[] args)
         {
-
+            byte[] program = null;
             if (args.GetLength(0)!=0)
             {
                 Debug.WriteLine("There are args");
@@ -52,6 +52,8 @@ namespace NBCAsm
                 }
                 return;
             }
+
+            
         }
         
         static void ShowHelp()
