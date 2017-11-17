@@ -30,7 +30,7 @@ Architecture:
   - All files must contain at least these three directives:
   ```.nbcasm {version}
   .osbyte {whatever value you want to send to the OS}
-  .targetarch {your target architecture}
+  .targetarch {your target architecture ID}
   ```
   - Labels are denoted as such
     ```asm
@@ -63,9 +63,14 @@ Architecture:
 
 - Program Structure
   - Header:
-    - Byte 1: OS-Specific argument
-    - Byte 2: Ammount of pages to reserve
-    - Byte 3-x Addresses of the pages that are reserved (Multiple of 256)
+    - Byte 1: Architecture ID
+      0. Universal (Can handle any architecture)
+      1. PC (Windows/Linux using the one provided in this repo)
+      2. 3DS (SmileBASIC)
+      * If you want to add more, just ask and I can put it in the list.
+    - Byte 2: OS-Specific argument
+    - Byte 3: Ammount of pages to reserve
+    - Byte 4-x Addresses of the pages that are reserved (Multiple of 256)
 
 - Commands:
   - `NOP`
@@ -191,6 +196,9 @@ Architecture:
     - 01h - Get character
       - OUT - Does nothing
       - IN - Gets currently pressed key in ASCII, returns 0 if nothing is pressed
+    - 02h - Get current architecture
+      - OUT - Does nothing
+      - IN - Gets current architecture
   - Semi standard (Must be present, but can have small differences from OS to OS)
     - 10h - Cursor control
       - OUT:
