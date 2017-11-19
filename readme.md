@@ -32,7 +32,8 @@ Documentation:
 - ASM structures:
   - Case is unimportant, except for labels
   - All files must contain at least these three directives:
-  ```.nbcasm {version}
+  ```
+  .nbcasm {version}
   .osbyte {whatever value you want to send to the OS}
   .targetarch {your target architecture ID}
   ```
