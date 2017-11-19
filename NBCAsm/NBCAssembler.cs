@@ -24,7 +24,11 @@ namespace NBCAssembler
     {
         public NBCNoArchGivenException() : base("No architecture was given")
         { }
-        public NBCNoArchGivenException(string message) : base(message)
+    }
+
+    public class NBCNoOSByteGivenException : Exception
+    {
+        public NBCNoOSByteGivenException() : base("No OS Byte was given")
         { }
     }
 
@@ -59,12 +63,21 @@ namespace NBCAssembler
             }
         }
 
-        public byte[] AssembleProgram()
+        private struct DefineStructure
+        {
+            public string Name;
+            public string ReplaceWith;
+        }
+
+        public void AssembleProgram()
         {
             //Pass 1: Preprocessors
             addToLog(NBCLogVerbosityLevel.info, "Starting Pass 1: Preprocessors");
             bool archGiven = false;
             bool versionGiven = false;
+            bool osByteGiven = false;
+            byte osByte = 0;
+            List<DefineStructure> defines = new List<DefineStructure>();
             foreach (string line in lines)
             {
                 if (line.StartsWith("."))
@@ -78,6 +91,24 @@ namespace NBCAssembler
                         }
                         versionGiven = true;
                     }
+                    if (line.StartsWith(".targetarch"))
+                    {
+                        archGiven = true;
+                        Architecture = NBCArchitecture.getDefaultArchitecture(Byte.Parse(line.Split(" ")[1]));
+                    }
+                    if (line.StartsWith(".osbyte"))
+                    {
+                        osByteGiven = true;
+                        osByte = Byte.Parse(line.Split(" ")[1]);
+                    }
+                    if (line.StartsWith(".define"))
+                    {
+                        defines.Add(new DefineStructure {
+                            Name = line.Split(" ")[1],
+                            ReplaceWith = line.Split(" ")[2]
+                        });
+                    }
+
                 }
             }
         }
