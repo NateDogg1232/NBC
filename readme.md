@@ -37,6 +37,12 @@ Documentation:
   .osbyte {whatever value you want to send to the OS}
   .targetarch {your target architecture ID}
   ```
+  - Optional directives:
+    - `.define {name} {value}`
+      - Defines a constant which will be replaced as the file is processed
+    - `.pagesave {label}`
+      - Saves a page of RAM as readonly data
+    
   - Labels are denoted as such
     ```asm
     :label
