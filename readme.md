@@ -201,6 +201,10 @@ Documentation:
 ---
 
 - Ports info:
+  - Recommended numbering system
+    - 0xh - Standard ports
+    - 1xh - Semi-standard ports
+    - yxh where y>1 - Any custom ports
   - Fully standard (must be present)
     - 00h - TTY character out
       - OUT - Outputs the character specified in TTY form (Using ASCII)
