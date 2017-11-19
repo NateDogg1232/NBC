@@ -16,7 +16,7 @@ namespace NBCAsm
         static void Main(string[] args)
         {
             byte[] program = null;
-            if (args.GetLength(0)!=0)
+            if (args.GetLength(0) != 0)
             {
                 Debug.WriteLine("There are args");
                 foreach (string arg in args)
@@ -31,10 +31,10 @@ namespace NBCAsm
 
                     if (arg == "-o")
 
-                    if (!arg.StartsWith("-"))
-                    {
-                        fileName = arg;
-                    }
+                        if (!arg.StartsWith("-"))
+                        {
+                            fileName = arg;
+                        }
                 }
             }
             else
@@ -56,9 +56,9 @@ namespace NBCAsm
             assembler.Architecture = NBCArchitecture.getDefaultArchitecture(1);
             //Allow output of the log to the console
             assembler.OutputLogToConsole = true;
-            
+
         }
-        
+
         static void ShowHelp()
         {
             Console.WriteLine("NBC Assembler Ver {0}", "b1.0");

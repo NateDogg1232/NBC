@@ -36,16 +36,20 @@ namespace NBCAssembler
     {
         public NBCArchitecture Architecture { get; set; }
         public List<NBCCommand> commands = new List<NBCCommand>();
-        string[] lines = null;
+        List<string> lines = new List<string>();
         NBCLogVerbosityLevel verbosityLevel = NBCLogVerbosityLevel.error;
         public List<string> Log { get; }
         public bool OutputLogToConsole { get; set; }
         public List<byte> Program { get; }
         static public Version CurrentVersion { get { return new Version("1.0.0") ; } }
-        public NBCAssembler(NBCArchitecture arch, string[] str)
+        public NBCAssembler(NBCArchitecture arch, string str)
         {
             Architecture = arch;
-            lines = str;
+            //Split the string into lines, trim any lines, and set them all to lowercase
+            foreach (string line in System.Text.RegularExpressions.Regex.Split(str, "\r\n|\r|\n"))
+            {
+                lines.Add(line.Trim().ToLower());
+            }
         }
 
         public void SetLogVerbosityLevel(NBCLogVerbosityLevel level)
@@ -68,16 +72,21 @@ namespace NBCAssembler
             public string Name;
             public string ReplaceWith;
         }
-
+        private struct LabelStructure
+        {
+            public string Name;
+            public Int16 Address;
+        }
         public void AssembleProgram()
         {
-            //Pass 1: Preprocessors
-            addToLog(NBCLogVerbosityLevel.info, "Starting Pass 1: Preprocessors");
             bool archGiven = false;
             bool versionGiven = false;
             bool osByteGiven = false;
             byte osByte = 0;
+            List<string> savedPages = new List<string>();
             List<DefineStructure> defines = new List<DefineStructure>();
+            //Pass 1: Preprocessors
+            addToLog(NBCLogVerbosityLevel.info, "Starting Pass 1: Preprocessors");
             foreach (string line in lines)
             {
                 if (line.StartsWith("."))
@@ -108,9 +117,16 @@ namespace NBCAssembler
                             ReplaceWith = line.Split(" ")[2]
                         });
                     }
-
+                    if (line.StartsWith(".savepage"))
+                    {
+                        savedPages.Add(line.Split(" ")[1]);
+                    }
                 }
             }
+            addToLog(NBCLogVerbosityLevel.verbose, "Pass 1: Done!");
+            addToLog(NBCLogVerbosityLevel.warning, "Building program header");
+            //TODO: Add program header builder
+
         }
     }
 }
