@@ -14,12 +14,12 @@ namespace NBCAssembler
     }
     public class NBCAssembler
     {
-        NBCArchitecture Architecture { get; set; }
-        List<NBCCommand> commands = new List<NBCCommand>();
+        public NBCArchitecture Architecture { get; set; }
+        public List<NBCCommand> commands = new List<NBCCommand>();
         string[] lines = null;
         NBCLogVerbosityLevel verbosityLevel = NBCLogVerbosityLevel.error;
-        List<string> Log { get; }
-        List<byte> Program { get; }
+        public List<string> Log { get; }
+        public List<byte> Program { get; }
         public NBCAssembler(NBCArchitecture arch, string[] str)
         {
             Architecture = arch;

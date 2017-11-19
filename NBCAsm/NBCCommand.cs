@@ -4,8 +4,8 @@ namespace NBCAssembler
 {
     public class NBCCommand
     {
-        List<NBCArg> Arguments { get; set; }
-        string Command { get; set; }
+        public List<NBCArg> Arguments { get; set; }
+        public string Command { get; set; }
 
 
         /// <summary>

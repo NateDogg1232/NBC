@@ -2,9 +2,9 @@ namespace NBCAssembler
 {
     public class NBCArg
     {
-        int Value { set; get; }
-        bool Long {get;set;}
-        NBCArgType Type { set; get; }
+        public int Value { set; get; }
+        public bool Long {get;set;}
+        public NBCArgType Type { set; get; }
         /// <summary>
         /// Attempt to parse an argument
         /// </summary>
