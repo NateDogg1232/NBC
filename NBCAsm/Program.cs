@@ -52,7 +52,10 @@ namespace NBCAsm
                 }
                 return;
             }
-
+            //Set the architecture to PC
+            assembler.Architecture = NBCArchitecture.getDefaultArchitecture(1);
+            //Allow output of the log to the console
+            assembler.OutputLogToConsole = true;
             
         }
         
