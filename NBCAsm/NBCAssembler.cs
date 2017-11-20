@@ -133,7 +133,12 @@ namespace NBCAssembler
             {
                 Program.Add(0);
             }
-
+            //Pass 2: Main commands and caching labels for later use
+            addToLog(NBCLogVerbosityLevel.verbose, "Starting Pass 2: Main commands and caching labels for later use");
+            foreach(string line in lines)
+            {
+                
+            }
 
         }
     }
