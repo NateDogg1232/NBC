@@ -125,7 +125,15 @@ namespace NBCAssembler
             }
             addToLog(NBCLogVerbosityLevel.verbose, "Pass 1: Done!");
             addToLog(NBCLogVerbosityLevel.warning, "Building program header");
-            //TODO: Add program header builder
+            Program.Add(Architecture.ID);
+            Program.Add(osByte);
+            Program.Add((Byte) savedPages.Count);
+            //Add fillers for the pages
+            for (int i = 0; i<savedPages.Count; i++)
+            {
+                Program.Add(0);
+            }
+
 
         }
     }
