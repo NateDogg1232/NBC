@@ -75,7 +75,7 @@ namespace NBCAssembler
         private struct LabelStructure
         {
             public string Name;
-            public Int16 Address;
+            public UInt16 Address;
         }
         public void AssembleProgram()
         {
@@ -85,6 +85,7 @@ namespace NBCAssembler
             byte osByte = 0;
             List<string> savedPages = new List<string>();
             List<DefineStructure> defines = new List<DefineStructure>();
+            List<LabelStructure> labels = new List<LabelStructure>();
             //Pass 1: Preprocessors
             addToLog(NBCLogVerbosityLevel.info, "Starting Pass 1: Preprocessors");
             foreach (string line in lines)
@@ -137,7 +138,14 @@ namespace NBCAssembler
             addToLog(NBCLogVerbosityLevel.verbose, "Starting Pass 2: Main commands and caching labels for later use");
             foreach(string line in lines)
             {
-                
+                if (line.StartsWith(':'))
+                {
+                    labels.Add(new LabelStructure
+                    {
+                        Name = line,
+                        Address = (UInt16) Program.Count
+                    });
+                }
             }
 
         }
