@@ -45,11 +45,6 @@ namespace NBCAsm
             if (fileName == "")
             {
                 Console.WriteLine("No file given!");
-                Console.WriteLine("".Split(" ").GetLength(0));
-                foreach (string str in "".Split(" "))
-                {
-                    Console.WriteLine(str);
-                }
                 return;
             }
             //Set the architecture to PC
