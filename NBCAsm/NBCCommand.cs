@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 
 namespace NBCAssembler
 {
@@ -64,5 +65,16 @@ namespace NBCAssembler
             }
             return tmp;
         }
+        //TODO: Finish this
+        public UInt16 GetArgumentHeader()
+        {
+            UInt16 returnLong = 0;
+            int i = 0;
+            while (i<Arguments.Count)
+            {
+
+                i++;
+            }
+        } 
     }
 }
