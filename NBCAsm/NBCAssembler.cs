@@ -13,6 +13,10 @@ namespace NBCAssembler
         verbose
     }
 
+    /*
+     * Exceptions
+     */
+
     public class NBCIncorrectVersionException : Exception
     {
         public NBCIncorrectVersionException(Version versionGiven) : base(
@@ -30,6 +34,14 @@ namespace NBCAssembler
     {
         public NBCNoOSByteGivenException() : base("No OS Byte was given")
         { }
+    }
+
+    public class NBCIncorrectNumberOfArgumentsException : Exception
+    {
+        public NBCIncorrectNumberOfArgumentsException(int numberOfArgumentsGiven, int numberOfArgumentsExpected) : base(
+            String.Format("Incorrect number of arguments (Expected: {0} Given: {1}", numberOfArgumentsExpected, numberOfArgumentsGiven)
+        )
+        {}
     }
 
     public class NBCAssembler
@@ -77,6 +89,12 @@ namespace NBCAssembler
             public string Name;
             public UInt16 Address;
         }
+        private struct NextInQueueStructure
+        {
+            public NBCCommand Command;
+            public UInt16 Address;
+        }
+
         public void AssembleProgram()
         {
             bool archGiven = false;
@@ -145,6 +163,58 @@ namespace NBCAssembler
                         Name = line,
                         Address = (UInt16) Program.Count
                     });
+                    continue;
+                }
+                if (NBCCommand.TryParse(line))
+                {
+                    //Now that we know that it is a syntatically correct command,
+                    //we can move on to checking what the command actually is
+                    NBCCommand tmpCommand = NBCCommand.Parse(line);
+                    //NOP
+                    //  Opcode 0x00
+                    //  0 args
+                    if (tmpCommand.Command == "nop")
+                    {
+                        if (tmpCommand.Arguments.Count != 0)
+                        {
+                            throw new NBCIncorrectNumberOfArgumentsException(tmpCommand.Arguments.Count, 0);
+                        }
+                        //Command
+                        Program.Add(0x00);
+                        //Arg header byte 0
+                        Program.Add(0x00);
+                        //Arg header byte 1
+                        Program.Add(0x00);
+                        continue;
+                    }
+                    //HLT
+                    //  Opcode 0x01
+                    //  0 args
+                    if (tmpCommand.Command == "hlt")
+                    {
+                        if (tmpCommand.Arguments.Count != 0)
+                        {
+                            throw new NBCIncorrectNumberOfArgumentsException(tmpCommand.Arguments.Count, 0);
+                        }
+                        //Command
+                        Program.Add(0x01);
+                        //Arg header byte 0
+                        Program.Add(0x00);
+                        //Arg header byte 1
+                        Program.Add(0x00);
+                    }
+                    //CHP
+                    //  Opcode 0x10
+                    //  1 Arg
+                    if (tmpCommand.Command == "chp")
+                    {
+                        if (tmpCommand.Arguments.Count != 1)
+                        {
+                            throw new NBCIncorrectNumberOfArgumentsException(tmpCommand.Arguments.Count, 1);
+                        }
+                        //Now we need to build the command header
+                        //TODO: Finish this
+                    }
                 }
             }
 
