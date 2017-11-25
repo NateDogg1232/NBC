@@ -41,7 +41,13 @@ namespace NBCAssembler
         public NBCIncorrectNumberOfArgumentsException(int numberOfArgumentsGiven, int numberOfArgumentsExpected) : base(
             String.Format("Incorrect number of arguments (Expected: {0} Given: {1}", numberOfArgumentsExpected, numberOfArgumentsGiven)
         )
-        {}
+        { }
+    }
+
+    public class NBCIncorrectArgumentTypeException : Exception
+    {
+        public NBCIncorrectArgumentTypeException(NBCArgType argType) : base(String.Format("Incorrect argument type: {0}", argType.ToString()))
+        { }
     }
 
     public class NBCAssembler
@@ -213,8 +219,62 @@ namespace NBCAssembler
                             throw new NBCIncorrectNumberOfArgumentsException(tmpCommand.Arguments.Count, 1);
                         }
                         //Now we need to build the command header
-                        //TODO: Finish this
+                        Program.Add(0x10);
+                        UInt16 tmpArgHeader = tmpCommand.GetArgumentHeader();
+                        Program.Add((byte) (tmpArgHeader & 0xFF));
+                        Program.Add((byte) ((tmpArgHeader & 0xFF00) >> 0x100));
+                        //And now we add the arguments
+                        foreach (NBCArg arg in tmpCommand.Arguments)
+                        {
+                            if (arg.Long)
+                            {
+                                Program.Add((byte) (arg.Value & 0xFF));
+                                Program.Add((byte) ((arg.Value & 0xFF00) >> 0x100));
+                            }
+                            else
+                            {
+                                Program.Add((byte) arg.Value);
+                            }
+                        }
                     }
+                    //MOV
+                    //  Opcode 0x11
+                    //  2 Args
+                    if (tmpCommand.Command == "mov")
+                    {
+                        if (tmpCommand.Arguments.Count != 2)
+                        {
+                            throw new NBCIncorrectNumberOfArgumentsException(tmpCommand.Arguments.Count, 2);
+                        }
+                        //Now we need to build the command header
+                        Program.Add(0x11);
+                        UInt16 tmpArgHeader = tmpCommand.GetArgumentHeader();
+                        Program.Add((byte) (tmpArgHeader & 0xFF));
+                        Program.Add((byte) ((tmpArgHeader & 0xFF00) >> 0x100));
+                        //And now we add the arguments
+                        //We start with argument 1, which has no type constrictions
+                        if (tmpCommand.Arguments[0].Long)
+                        {
+                            Program.Add((byte) (tmpCommand.Arguments[0].Value & 0xFF));
+                            Program.Add((byte) ((tmpCommand.Arguments[0].Value & 0xFF00) >> 0x100));
+                        }
+                        else
+                        {
+                            Program.Add((byte) (tmpCommand.Arguments[0].Value & 0xFF));
+                        }
+                        //Then we go with argument two, which needs to be an address
+                        if ((tmpCommand.Arguments[1].Type == NBCArgType.Constant) || (tmpCommand.Arguments[1].Type == NBCArgType.Label))
+                        {
+                            throw new NBCIncorrectArgumentTypeException(tmpCommand.Arguments[1].Type);
+                        }
+                        //Since we know it's an address, now we can just add it to the program
+                        if (tmpCommand.Arguments[1].Long)
+                        {
+                            Program.Add((byte) (tmpCommand.Arguments[1].Value & 0xFF));
+                            Program.Add((byte) ((tmpCommand.Arguments[1].Value & 0xFF00) >> 0x100));
+                        }
+                    }
+                    //TODO: Finish the commands                    
                 }
             }
 
