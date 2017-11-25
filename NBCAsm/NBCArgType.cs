@@ -4,7 +4,6 @@ namespace NBCAssembler
     {
         Constant,
         Address,
-        Direct,
         Indirect,
         Label
     }
