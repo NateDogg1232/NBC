@@ -65,16 +65,32 @@ namespace NBCAssembler
             }
             return tmp;
         }
-        //TODO: Finish this
         public UInt16 GetArgumentHeader()
         {
             UInt16 returnLong = 0;
             int i = 0;
             while (i<Arguments.Count)
             {
-
+                //First we set the first bit to present, since the argument is indeed present
+                returnLong |= (UInt16) (1<<(i*4));
+                //Second we set the length
+                if (Arguments[i].Long)
+                {
+                    returnLong |= (UInt16) (1<<(i*4)+1);
+                }
+                //Next we set the constant vs address type
+                if (!(Arguments[i].Type == NBCArgType.Constant))
+                {
+                    returnLong |= (UInt16) (1<<(i*4)+2);
+                }
+                //And finally we set the indirect vs direct addressing type
+                if (Arguments[i].Type == NBCArgType.Indirect)
+                {
+                    returnLong |= (UInt16) (1<<(i*4)+2);
+                }
                 i++;
             }
+            return returnLong;
         } 
     }
 }
