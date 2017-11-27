@@ -228,5 +228,8 @@ Documentation:
         - First output should be x value
         - Second output should be y value
       - IN:
-        - First input is current x value
-        - Second input is current y value
+        - Get Current State
+          - 0: Status OK, Next out value will go to x
+          - 1: Status OK, Next out value will go to y
+          - 2: Status Bad, x value given is out of range
+          - 3: Status Bad, y value given is out of range
