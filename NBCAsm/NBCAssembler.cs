@@ -101,6 +101,12 @@ namespace NBCAssembler
             public UInt16 Address;
         }
 
+
+        private void addLongToProgram(UInt16 add)
+        {
+            Program.Add((byte) (add & 0xFF));
+            Program.Add((byte) ((add & 0xFF00) >> 0x100));
+        }
         public void AssembleProgram()
         {
             bool archGiven = false;
@@ -228,8 +234,7 @@ namespace NBCAssembler
                         {
                             if (arg.Long)
                             {
-                                Program.Add((byte) (arg.Value & 0xFF));
-                                Program.Add((byte) ((arg.Value & 0xFF00) >> 0x100));
+                                addLongToProgram(arg.Value);
                             }
                             else
                             {
@@ -255,8 +260,7 @@ namespace NBCAssembler
                         //We start with argument 1, which has no type constrictions
                         if (tmpCommand.Arguments[0].Long)
                         {
-                            Program.Add((byte) (tmpCommand.Arguments[0].Value & 0xFF));
-                            Program.Add((byte) ((tmpCommand.Arguments[0].Value & 0xFF00) >> 0x100));
+                            addLongToProgram(tmpCommand.Arguments[0].Value);
                         }
                         else
                         {
@@ -270,8 +274,54 @@ namespace NBCAssembler
                         //Since we know it's an address, now we can just add it to the program
                         if (tmpCommand.Arguments[1].Long)
                         {
+                            addLongToProgram(tmpCommand.Arguments[1].Value);
+                        }
+                        else
+                        {
                             Program.Add((byte) (tmpCommand.Arguments[1].Value & 0xFF));
-                            Program.Add((byte) ((tmpCommand.Arguments[1].Value & 0xFF00) >> 0x100));
+                        }
+                    }
+                    //MOL
+                    //  Opcode 0x12
+                    //  3 args
+                    if (tmpCommand.Command == "mol")
+                    {
+                        if (tmpCommand.Arguments.Count != 3)
+                        {
+                            throw new NBCIncorrectNumberOfArgumentsException(tmpCommand.Arguments.Count, 3);
+                        }
+                        //Now we build the command header
+                        Program.Add(0x12);
+                        UInt16 tmpArgHeader = tmpCommand.GetArgumentHeader();
+                        Program.Add((byte) (tmpArgHeader & 0xFF));
+                        Program.Add((byte) ((tmpArgHeader & 0xFF00) >> 0x100));
+                        if (tmpCommand.Arguments[0].Long)
+                        {
+                            addLongToProgram(tmpCommand.Arguments[0].Value);
+                        }
+                        else
+                        {
+                            Program.Add((byte) (tmpCommand.Arguments[0].Value & 0xFF));
+                        }
+                        if ((tmpCommand.Arguments[1].Type == NBCArgType.Constant) || (tmpCommand.Arguments[1].Type == NBCArgType.Label))
+                        {
+                            throw new NBCIncorrectArgumentTypeException(tmpCommand.Arguments[1].Type);
+                        }
+                        if (tmpCommand.Arguments[1].Long)
+                        {
+                            addLongToProgram(tmpCommand.Arguments[1].Value);
+                        }
+                        else
+                        {
+                            Program.Add((byte) (tmpCommand.Arguments[1].Value & 0xFF));
+                        }
+                        if (tmpCommand.Arguments[2].Long)
+                        {
+                            addLongToProgram(tmpCommand.Arguments[2].Value);
+                        }
+                        else
+                        {
+                            Program.Add((byte) (tmpCommand.Arguments[2].Value & 0xFF));
                         }
                     }
                     //TODO: Finish the commands                    
