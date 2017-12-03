@@ -1,8 +1,9 @@
+using System;
 namespace NBCAssembler
 {
     public class NBCArg
     {
-        public int Value { set; get; }
+        public UInt16 Value { set; get; }
         public bool Long {get;set;}
         public NBCArgType Type { set; get; }
         /// <summary>
@@ -40,7 +41,7 @@ namespace NBCAssembler
                     default:
                         return false;
                 }
-                if (!int.TryParse(i.Substring(2), out int j))
+                if (!UInt16.TryParse(i.Substring(2), out UInt16 j))
                 {
                     return false;
                 }
@@ -105,7 +106,7 @@ namespace NBCAssembler
                 }
                 else
                 {
-                    if (int.TryParse(i.Substring(2), out int j))
+                    if (UInt16.TryParse(i.Substring(2), out UInt16 j))
                     {
                         tmp.Value = j;
                     }
