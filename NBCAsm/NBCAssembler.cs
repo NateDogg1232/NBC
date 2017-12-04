@@ -226,9 +226,7 @@ namespace NBCAssembler
                         }
                         //Now we need to build the command header
                         Program.Add(0x10);
-                        UInt16 tmpArgHeader = tmpCommand.GetArgumentHeader();
-                        Program.Add((byte) (tmpArgHeader & 0xFF));
-                        Program.Add((byte) ((tmpArgHeader & 0xFF00) >> 0x100));
+                        addLongToProgram(tmpCommand.GetArgumentHeader());
                         //And now we add the arguments
                         foreach (NBCArg arg in tmpCommand.Arguments)
                         {
@@ -253,9 +251,7 @@ namespace NBCAssembler
                         }
                         //Now we need to build the command header
                         Program.Add(0x11);
-                        UInt16 tmpArgHeader = tmpCommand.GetArgumentHeader();
-                        Program.Add((byte) (tmpArgHeader & 0xFF));
-                        Program.Add((byte) ((tmpArgHeader & 0xFF00) >> 0x100));
+                        addLongToProgram(tmpCommand.GetArgumentHeader());
                         //And now we add the arguments
                         //We start with argument 1, which has no type constrictions
                         if (tmpCommand.Arguments[0].Long)
@@ -292,9 +288,8 @@ namespace NBCAssembler
                         }
                         //Now we build the command header
                         Program.Add(0x12);
-                        UInt16 tmpArgHeader = tmpCommand.GetArgumentHeader();
-                        Program.Add((byte) (tmpArgHeader & 0xFF));
-                        Program.Add((byte) ((tmpArgHeader & 0xFF00) >> 0x100));
+                        addLongToProgram(tmpCommand.GetArgumentHeader());
+
                         if (tmpCommand.Arguments[0].Long)
                         {
                             addLongToProgram(tmpCommand.Arguments[0].Value);
@@ -324,6 +319,59 @@ namespace NBCAssembler
                             Program.Add((byte) (tmpCommand.Arguments[2].Value & 0xFF));
                         }
                     }
+                    //INC
+                    //  Opcode: 0x20
+                    //  Args: 1
+                    if (tmpCommand.Command == "inc")
+                    {
+                        if (tmpCommand.Arguments.Count != 1)
+                        {
+                            throw new NBCIncorrectNumberOfArgumentsException(tmpCommand.Arguments.Count, 1);
+                        }
+                        if (tmpCommand.Arguments[0].Type != NBCArgType.Address || tmpCommand.Arguments[0].Type != NBCArgType.Indirect)
+                        {
+                            throw new NBCIncorrectArgumentTypeException(tmpCommand.Arguments[0].Type);
+                        }
+                        //Now we add the command header
+                        Program.Add(0x20);
+                        addLongToProgram(tmpCommand.GetArgumentHeader());
+                        //And now we add the arguments
+                        if (tmpCommand.Arguments[0].Long)
+                        {
+                            addLongToProgram(tmpCommand.Arguments[0].Value);
+                        }
+                        else
+                        {
+                            Program.Add((byte) (tmpCommand.Arguments[0].Value & 0xFF));
+                        }
+                    }
+                    //DEC
+                    //  Opcode: 0x21
+                    //  Args: 1
+                    if (tmpCommand.Command == "dec")
+                    {
+                        if (tmpCommand.Arguments.Count != 1)
+                        {
+                            throw new NBCIncorrectNumberOfArgumentsException(tmpCommand.Arguments.Count, 1);
+                        }
+                        if (tmpCommand.Arguments[0].Type != NBCArgType.Address || tmpCommand.Arguments[0].Type != NBCArgType.Indirect)
+                        {
+                            throw new NBCIncorrectArgumentTypeException(tmpCommand.Arguments[0].Type);
+                        }
+                        //Now we add the command header
+                        Program.Add(0x21);
+                        addLongToProgram(tmpCommand.GetArgumentHeader());
+                        //And now we add the arguments
+                        if (tmpCommand.Arguments[0].Long)
+                        {
+                            addLongToProgram(tmpCommand.Arguments[0].Value);
+                        }
+                        else
+                        {
+                            Program.Add((byte) (tmpCommand.Arguments[0].Value & 0xFF));
+                        }
+                    }
+                    
                     //TODO: Finish the commands                    
                 }
             }
