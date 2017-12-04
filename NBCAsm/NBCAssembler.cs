@@ -412,6 +412,47 @@ namespace NBCAssembler
                             Program.Add((byte) (tmpCommand.Arguments[2].Value & 0xFF));
                         }
                     }
+                    //SUB
+                    //  Opcode: 0x23
+                    //  Args: 3
+                    if (tmpCommand.Command == "sub")
+                    {
+                        if (tmpCommand.Arguments.Count != 3)
+                        {
+                            throw new NBCIncorrectNumberOfArgumentsException(tmpCommand.Arguments.Count, 3);
+                        }
+                        if (tmpCommand.Arguments[2].Type != NBCArgType.Address || tmpCommand.Arguments[2].Type != NBCArgType.Indirect)
+                        {
+                            throw new NBCIncorrectArgumentTypeException(tmpCommand.Arguments[2].Type);
+                        }
+                        //Now we add the command header
+                        Program.Add(0x23);
+                        addLongToProgram(tmpCommand.GetArgumentHeader());
+                        if (tmpCommand.Arguments[0].Long)
+                        {
+                            addLongToProgram(tmpCommand.Arguments[0].Value);
+                        }
+                        else
+                        {
+                            Program.Add((byte) (tmpCommand.Arguments[0].Value & 0xFF));
+                        }
+                        if (tmpCommand.Arguments[1].Long)
+                        {
+                            addLongToProgram(tmpCommand.Arguments[1].Value);
+                        }
+                        else
+                        {
+                            Program.Add((byte) (tmpCommand.Arguments[1].Value & 0xFF));
+                        }
+                        if (tmpCommand.Arguments[2].Long)
+                        {
+                            addLongToProgram(tmpCommand.Arguments[2].Value);
+                        }
+                        else
+                        {
+                            Program.Add((byte) (tmpCommand.Arguments[2].Value & 0xFF));
+                        }
+                    }
                     //TODO: Finish the commands                    
                 }
             }
