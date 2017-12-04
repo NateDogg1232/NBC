@@ -128,10 +128,10 @@ Documentation:
       - dest must be of type address
     - Sets carry flag if value is too small
   - `MUL op1 op2 dest`
-        - Opcode 24h
-        - Multiplies two operands and stores the result in dest
-            - dest must be of type address
-        - Sets carry flag if value is too large
+    - Opcode 24h
+    - Multiplies two operands and stores the result in dest
+      - dest must be of type address
+      - Sets carry flag if value is too large
   - `DIV op1 op2 dest`
     - Opcode 25h
     - Divides two operands and stores the result in dest
